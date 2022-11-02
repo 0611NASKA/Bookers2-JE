@@ -8,7 +8,126 @@
     </div>
     <div class='col-md-8 offset-md-1'>
       <h2>Books</h2>
-      <%= render 'books/index',books: @books %>
+      <table class='table table-hover table-inverse'>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Title</th>
+            <th>Opinion</th>
+            <th colspan="4"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @books.each do |book| %>
+            <tr>
+              <td>
+                <%= link_to(book.user) do %>
+                  <%= image_tag book.user.get_profile_image, size:'50x50' %>
+                <% end %>
+              </td>
+              <td><%= link_to book.title,book %></td>
+              <td><%= book.body %></td>
+              <td id="favorite_buttons_<%= book.id %>">
+                <%= render "favorites/favorite", book: book %>
+              </td>
+              <td><%= "コメント数: #{book.book_comments.count}" %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div class = "table_width">
+        <h2>投稿数の前日比・前週比</h2>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>今日の投稿数</th>
+              <th>前日の投稿数</th>
+              <th>前日比</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><%= @today_book.count %></td>
+              <td><%= @yesterday_book.count %></td>
+              <td>
+                <% if @yesterday_book.count == 0 %>
+                  前日の投稿はありません
+                <% else %>
+                  <% @the_day_before =   @today_book.count / @yesterday_book.count.to_f  %>
+                  <%= (@the_day_before * 100).round %>%
+                <% end %>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>今週の投稿数</th>
+              <th>前週の投稿数</th>
+              <th>前週比</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><%= @this_week_book.count %></td>
+              <td><%= @last_week_book.count %></td>
+              <td>
+                <% if @last_week_book.count == 0 %>
+                  前週の投稿はありません
+                <% else %>
+                  <% @the_week_before =   @this_week_book.count / @last_week_book.count.to_f  %>
+                  <%= (@the_week_before * 100).round %>%
+                <% end %>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>7日間分の投稿数</h2>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>６日前</th>
+              <th>5日前</th>
+              <th>4日前</th>
+              <th>3日前</th>
+              <th>２日前</th>
+              <th>1日前</th>
+              <th>今日</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th><%= @books.created_6days.count %></th>
+              <th><%= @books.created_5days.count %></th>
+              <th><%= @books.created_4days.count %></th>
+              <th><%= @books.created_3days.count %></th>
+              <th><%= @books.created_2days.count %></th>
+              <th><%= @books.created_yesterday.count %></th>
+              <th><%= @books.created_today.count %></th>
+            </tr>
+          </tbody>
+        </table>
+        <canvas id="myChart" width="300" height="100"> </canvas>
+
+        <script>
+          var ctx = document.getElementById("myChart").getContext('2d');
+          var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: ['6日前', '5日前', '4日前', '3日前', '2日前', '1日前', '今日'],
+              datasets: [{
+                label: "投稿した本の数",
+                data: [<%= @books.created_6days.count %>, <%= @books.created_5days.count %>, <%= @books.created_4days.count %>, <%= @books.created_3days.count %>, <%= @books.created_2days.count %>, <%= @books.created_yesterday.count %>, <%= @books.created_today.count %>],
+                backgroundColor: 'rgba(255, 255, 255, 1.0)',
+                borderColor: 'rgba(0, 106, 182, 1.0)',
+                lineTension: 0.3,
+                fill: false
+              }]
+            },
+          });
+        </script>
+      </div>
     </div>
   </div>
 </div>
