@@ -10,29 +10,30 @@
   		<h2>Book detail</h2>
   		<table class='table'>
   		  <tr>
-          <td><%= link_to(@book.user) do %>
-            <%= image_tag @book.user.get_profile_image, size:"100x100" %><br>
-            <%= @book.user.name %>
+          <td><%= link_to(@book_detail.user) do %>
+            <%= image_tag @book_detail.user.get_profile_image, size:"100x100" %><br>
+            <%= @book_detail.user.name %>
             <% end %>
           </td>
-          <td><%= link_to @book.title, @book %></td>
-          <td><%= @book.body %></td>
-          <% if @book.user == current_user %>
-            <td><%= link_to 'Edit', edit_book_path(@book), class: "btn btn-sm btn-success" %></td>
-            <td><%= link_to 'Destroy', @book, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger"%></td>
+          <td><%= link_to @book_detail.title, @book_detail %></td>
+          <td><%= @book_detail.body %></td>
+          <% if @book_detail.user == current_user %>
+            <td><%= link_to 'Edit', edit_book_path(@book_detail), class: "btn btn-sm btn-success" %></td>
+            <td><%= link_to 'Destroy', @book_detail, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger"%></td>
           <% end %>
-          <td id="favorite_buttons_<%= @book.id %>">
-            <%= render "favorites/favorite", book: @book %>
+          <td id="favorite_buttons_<%= @book_detail.id %>">
+            <%= render "favorites/favorite", book: @book_detail %>
           </td>
-          <td><%= "コメント数: #{@book.book_comments.count}" %></td>
+          <td><%= "コメント数: #{@book_detail.book_comments.count}" %></td>
+          <td>閲覧数: <%= @book_detail.view_counts.count %></td>
         </tr>
       </table>
       <div id="comments_area">
-        <%= render "book_comments/comments", book: @book %>
+        <%= render "book_comments/comments", book: @book_detail %>
       </div>
 
       <div class="new-comment">
-        <%= render "book_comments/form", book: @book, book_comment: @book_comment %>
+        <%= render "book_comments/form", book: @book_detail, book_comment: @book_comment %>
       </div>
     </div>
   </div>
