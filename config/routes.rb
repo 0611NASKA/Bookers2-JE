@@ -13,5 +13,6 @@ Rails.application.routes.draw do
     get 'followers' => 'relationships#followers', as: 'followers'
   end
   get "search" => "searches#search"
+  resources :groups, except: [:destroy]
 end
 
