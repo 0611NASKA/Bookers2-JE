@@ -16,11 +16,11 @@ class BooksController < ApplicationController
     from  = (to - 6.day).at_beginning_of_day
     books = Book.includes(:favorited_users).
       sort {|a,b|
-        b.favorited_users.includes(:favorites).where(created_at: from...to).size <=> 
+        b.favorited_users.includes(:favorites).where(created_at: from...to).size <=>
         a.favorited_users.includes(:favorites).where(created_at: from...to).size
       }
-     @books=Kaminari.paginate_array(books).page(params[:page]).per(5)
-     @book = Book.new
+    @books=Kaminari.paginate_array(books).page(params[:page]).per(5)
+    @book = Book.new
   end
 
   def create
@@ -29,7 +29,14 @@ class BooksController < ApplicationController
     if @book.save
       redirect_to book_path(@book), notice: "You have created book successfully."
     else
-      @books = Book.all
+      to  = Time.current.at_end_of_day
+      from  = (to - 6.day).at_beginning_of_day
+      books = Book.includes(:favorited_users).
+        sort {|a,b|
+          b.favorited_users.includes(:favorites).where(created_at: from...to).size <=>
+          a.favorited_users.includes(:favorites).where(created_at: from...to).size
+        }
+      @books=Kaminari.paginate_array(books).page(params[:page]).per(5)
       render 'index'
     end
   end
