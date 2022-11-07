@@ -19,7 +19,7 @@ class BooksController < ApplicationController
     if @book.save
       redirect_to book_path(@book), notice: "You have created book successfully."
     else
-      @books = Book.all
+      @books = Book.all.page(params[:page]).per(5)
       render 'index'
     end
   end
