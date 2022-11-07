@@ -9,7 +9,14 @@ class BooksController < ApplicationController
   end
 
   def index
-    @books = Book.all.page(params[:page]).per(5)
+    if params[:latest]
+      @books = Book.latest.page(params[:page]).per(5)
+    elsif params[:star_count]
+      @books = Book.star_count.page(params[:page]).per(5)
+    else
+      @books = Book.all.page(params[:page]).per(5)
+    end
+
     @book = Book.new
   end
 
