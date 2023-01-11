@@ -11,6 +11,9 @@ class BooksController < ApplicationController
   def index
     @books = Book.all.page(params[:page]).per(5)
     @book = Book.new
+    if params[:tag_name]
+      @books = Book.tagged_with("#{params[:tag_name]}").page(params[:page]).per(5)
+    end
   end
 
   def create
@@ -53,6 +56,7 @@ class BooksController < ApplicationController
   private
 
   def book_params
-    params.require(:book).permit(:title, :body)
+    params.require(:book).permit(:title, :body, :tag_list)
+    # tag_listを追記
   end
 end
