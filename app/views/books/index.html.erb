@@ -9,6 +9,11 @@
     <div class='col-md-8 offset-md-1'>
       <h2>Books</h2>
       <%= render 'index', books: @books %>
+      <div class="slider">
+        <% @boards.each do |board| %>
+          <p><%= image_tag board.user.get_profile_image, class: 'slider-item rounded' %></p>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
