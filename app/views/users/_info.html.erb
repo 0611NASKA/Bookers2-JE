@@ -1,19 +1,33 @@
 <table class='table'>
   <tr><%= image_tag user.get_profile_image, size:'100x100' %></tr>
   <tr>
-	  <th>name</th>
+	  <th>名前</th>
 	  <th><%= user.name %></th>
   </tr>
   <tr>
-	  <th>introduction</th>
+	  <th>自己紹介文</th>
 	  <th><%= user.introduction %></th>
   </tr>
+  <% if user == current_user %>
+    <tr>
+	    <th>メールアドレス</th>
+	    <th><%= user.email %></th>
+    </tr>
+    <tr>
+	    <th>郵便番号</th>
+	    <th><%= user.postcode %></th>
+    </tr>
+    <tr>
+      <th>住所</th>
+      <th><%= user.join_address %></th>
+    </tr>
+  <% end %>
   <tr>
-    <th>follows</th>
+    <th>フォロー</th>
     <th><%= link_to user.followings.count, user_followings_path(user) %></th>
   </tr>
   <tr>
-    <th>followers</th>
+    <th>フォロワー</th>
     <th><%= link_to user.followers.count, user_followers_path(user) %></th>
   </tr>
 </table>

@@ -16,6 +16,9 @@ class User < ApplicationRecord
   has_many :followings, through: :relationships, source: :followed
   has_many :followers, through: :reverse_of_relationships, source: :follower
 
+  include JpPrefecture
+  jp_prefecture :prefecture_code
+
   validates :name, length: { minimum: 2, maximum: 20 }, uniqueness: true
   validates :introduction, length: { maximum: 50 }
 
@@ -48,5 +51,17 @@ class User < ApplicationRecord
     else
       @user = User.all
     end
+  end
+
+  def prefecture_name
+    JpPrefecture::Prefecture.find(code: prefecture_code).try(:name)
+  end
+
+  def prefecture_name=(prefecture_name)
+    self.prefecture_code = JpPrefecture::Prefecture.find(name: prefecture_name).code
+  end
+
+  def join_address
+    "#{self.prefecture_name}#{self.address_city}#{self.address_street}#{self.address_building}"
   end
 end
