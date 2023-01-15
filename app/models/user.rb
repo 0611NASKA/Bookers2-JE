@@ -19,6 +19,9 @@ class User < ApplicationRecord
   include JpPrefecture
   jp_prefecture :prefecture_code
 
+  geocoded_by :address_city
+  after_validation :geocode, if: :address_city_changed?
+
   validates :name, length: { minimum: 2, maximum: 20 }, uniqueness: true
   validates :introduction, length: { maximum: 50 }
 

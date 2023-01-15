@@ -66,3 +66,5 @@ gem 'rails-i18n'
 gem 'devise-i18n'
 gem 'acts-as-taggable-on', '~> 9.0'
 gem 'jp_prefecture'
+gem 'dotenv-rails'
+gem "geocoder"
