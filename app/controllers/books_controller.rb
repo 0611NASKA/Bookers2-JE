@@ -16,6 +16,12 @@ class BooksController < ApplicationController
     end
   end
 
+  def search
+    if params[:keyword]
+      @books = RakutenWebService::Books::Book.search(title: params[:keyword])
+    end
+  end
+
   def create
     @book = Book.new(book_params)
     @book.user_id = current_user.id

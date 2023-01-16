@@ -19,10 +19,11 @@
             <% end %>
           </li>
           <li>
-            <%=  link_to books_path ,class: 'nav-link text-light' do %>
+            <%=  link_to books_path,class: 'nav-link text-light' do %>
               <i class="fas fa-book-open"></i> Books
             <% end %>
           </li>
+          <li><%=  link_to "本を検索",books_search_path,class: 'nav-link text-light' %></li>
           <li>
             <%= link_to destroy_user_session_path, method: :delete,class: 'nav-link text-light' do %>
               <i class="fas fa-sign-out-alt"></i> Log out

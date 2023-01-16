@@ -60,8 +60,8 @@ gem 'devise'
 gem 'jquery-rails'
 gem 'kaminari'
 gem "net-smtp"
-gem "net-pop"
-gem "net-imap"
 gem 'rails-i18n'
 gem 'devise-i18n'
 gem 'acts-as-taggable-on', '~> 9.0'
+gem 'rakuten_web_service'
+gem 'dotenv-rails'
